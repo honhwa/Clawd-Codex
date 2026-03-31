@@ -162,34 +162,12 @@ def show_config():
 
 def start_repl():
     """Start interactive REPL."""
-    console = Console()
+    from src.config import get_default_provider
+    from src.repl import ClawdREPL
 
-    from src import __version__
-    console.print(f"\n[bold blue]Clawd Codex v{__version__}[/bold blue]")
-    console.print("[dim]Interactive REPL mode[/dim]\n")
-
-    # Check if API is configured
-    try:
-        from src.config import get_default_provider, get_provider_config
-
-        default_provider = get_default_provider()
-        provider_config = get_provider_config(default_provider)
-
-        if not provider_config.get("api_key"):
-            console.print("[yellow]Warning: No API key configured.[/yellow]")
-            console.print(f"[yellow]Run 'clawd login' to configure your {default_provider.upper()} API key.[/yellow]\n")
-            return 1
-
-        console.print(f"[green]Using provider: {default_provider}[/green]")
-        console.print(f"[green]Model: {provider_config.get('default_model', 'default')}[/green]\n")
-
-    except Exception as e:
-        console.print(f"[red]Error checking configuration: {e}[/red]\n")
-        return 1
-
-    # REPL implementation coming in Phase 3
-    console.print("[yellow]REPL implementation coming in Phase 3[/yellow]")
-    console.print("[dim]For now, use: clawd --help[/dim]\n")
+    provider = get_default_provider()
+    repl = ClawdREPL(provider_name=provider)
+    repl.run()
     return 0
 
 
