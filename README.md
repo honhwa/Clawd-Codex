@@ -269,17 +269,6 @@ Clawd-Code/
 
 ***
 
-## 🗺️ Roadmap
-
-- [x] Python MVP
-- [x] Multi-provider support
-- [x] Session persistence
-- [x] Security audit
-- [ ] Tool calling system
-- [ ] PyPI package
-- [ ] Go version
-
-***
 
 ## 🤝 Contributing
 
@@ -343,7 +332,7 @@ MIT License — See [LICENSE](LICENSE)
 
 If you find this useful, please **star** ⭐ the repo!
 
-**Made with ❤️ by Clawd Codex Team**
+**Made with ❤️ by Clawd Code Team**
 
 [⬆ Back to Top](#-clawd-codex)
 
@@ -625,18 +614,6 @@ Clawd-Code/
 
 ***
 
-## 🗺️ 路线图
-
-- [x] Python MVP
-- [x] 多提供商支持
-- [x] 会话持久化
-- [x] 安全审计
-- [ ] 工具调用系统
-- [ ] PyPI 包
-- [ ] Go 版本
-
-***
-
 ## 🤝 贡献
 
 **我们欢迎贡献！**
@@ -699,7 +676,7 @@ MIT 许可证 — 查看 [LICENSE](LICENSE)
 
 如果你觉得这个项目有用，请给个 **star** ⭐！
 
-**用 ❤️ 制作 by Clawd Codex 团队**
+**用 ❤️ 制作 by Clawd Code 团队**
 
 [⬆ 回到顶部](#中文版)
 
