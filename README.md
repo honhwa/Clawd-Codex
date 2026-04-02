@@ -34,12 +34,12 @@
 
 | **Core Features Showcase** |
 |:---:|
-| ![File Operations](assets/clawd-code-write-read.png) |
-| *Seamless File Reading & Writing* |
 | ![Bash Execution](assets/clawd-code-bash.png) |
 | *Real-time Bash Command Execution* |
 | ![Web Fetch](assets/claude-code-webfetch.png) |
 | *Instant Web Content Extraction* |
+| ![File Operations](assets/clawd-code-write-read.png) |
+| *Seamless File Reading & Writing* |
 
 **Real CLI • Real Usage • Real Community**
 
@@ -106,6 +106,42 @@ clawd config       # View settings
 | Test Coverage | ✅ 90%+     | 75+ tests |
 | Documentation | ✅ Complete | 10+ docs  |
 
+### Core Systems
+
+| System | Status | Description |
+|--------|--------|-------------|
+| CLI Entry | ✅ | `clawd`, `login`, `config`, `--version` |
+| Interactive REPL | ✅ | Streaming output, history, tab completion, multiline |
+| Multi-Provider | ✅ | Anthropic, OpenAI, GLM support |
+| Session Persistence | ✅ | Save/load sessions locally |
+| Agent Loop | ✅ | Tool calling loop implementation |
+| Context Building | 🟡 | Basic framework, needs enhancement |
+| Permission System | 🟡 | Framework exists, needs integration |
+
+### Tool System (30+ Tools Implemented)
+
+| Category | Tools | Status |
+|----------|-------|--------|
+| File Operations | Read, Write, Edit, Glob, Grep | ✅ Complete |
+| System | Bash execution | ✅ Complete |
+| Web | WebFetch, WebSearch | ✅ Complete |
+| Interaction | AskUserQuestion, SendMessage | ✅ Complete |
+| Task Management | TodoWrite, TaskManager, TaskStop | ✅ Complete |
+| Agent Tools | Agent, Brief, Team | ✅ Complete |
+| Configuration | Config, PlanMode, Cron | ✅ Complete |
+| MCP | MCP tools and resources | ✅ Complete |
+| Others | LSP, Worktree, Skill, ToolSearch | ✅ Complete |
+
+### Roadmap Progress
+
+- ✅ **Phase 0**: Installable, runnable CLI
+- ✅ **Phase 1**: Core Claude Code MVP experience
+- ✅ **Phase 2**: Real tool calling loop
+- 🟡 **Phase 3**: Context, permissions, recovery (in progress)
+- ⏳ **Phase 4**: MCP, plugins, extensibility
+- ⏳ **Phase 5**: Python-native differentiators
+
+**See [FEATURE_LIST.md](FEATURE_LIST.md) for detailed feature status and PR guidelines.**
 
 ## 🚀 Quick Start
 
@@ -354,12 +390,12 @@ If you find this useful, please **star** ⭐ the repo!
 
 | **核心功能演示** |
 |:---:|
-| ![文件操作](assets/clawd-code-write-read.png) |
-| *无缝的文件读取与写入* |
 | ![Bash 执行](assets/clawd-code-bash.png) |
 | *实时的 Bash 命令执行* |
 | ![网页获取](assets/claude-code-webfetch.png) |
 | *即时的网页内容提取* |
+| ![文件操作](assets/clawd-code-write-read.png) |
+| *无缝的文件读取与写入* |
 
 **真实的 CLI • 真实的使用 • 真实的社区**
 
@@ -425,6 +461,43 @@ clawd config       # 查看设置
 | 工具    | ✅ 完成   | 100+   |
 | 测试覆盖率 | ✅ 90%+ | 75+ 测试 |
 | 文档    | ✅ 完成   | 10+ 文档 |
+
+### 核心系统
+
+| 系统 | 状态 | 描述 |
+|------|------|------|
+| CLI 入口 | ✅ | `clawd`、`login`、`config`、`--version` |
+| 交互式 REPL | ✅ | 流式输出、历史记录、Tab 补全、多行输入 |
+| 多提供商支持 | ✅ | 支持 Anthropic、OpenAI、GLM |
+| 会话持久化 | ✅ | 本地保存/加载会话 |
+| Agent Loop | ✅ | 工具调用循环实现 |
+| 上下文构建 | 🟡 | 基础框架，需要增强 |
+| 权限系统 | 🟡 | 框架已存在，需要集成 |
+
+### 工具系统（已实现 30+ 工具）
+
+| 类别 | 工具 | 状态 |
+|------|------|------|
+| 文件操作 | Read, Write, Edit, Glob, Grep | ✅ 完成 |
+| 系统 | Bash 执行 | ✅ 完成 |
+| 网络 | WebFetch, WebSearch | ✅ 完成 |
+| 交互 | AskUserQuestion, SendMessage | ✅ 完成 |
+| 任务管理 | TodoWrite, TaskManager, TaskStop | ✅ 完成 |
+| Agent 工具 | Agent, Brief, Team | ✅ 完成 |
+| 配置 | Config, PlanMode, Cron | ✅ 完成 |
+| MCP | MCP 工具和资源 | ✅ 完成 |
+| 其他 | LSP, Worktree, Skill, ToolSearch | ✅ 完成 |
+
+### 路线图进度
+
+- ✅ **阶段 0**：可安装、可运行的 CLI
+- ✅ **阶段 1**：Claude Code 核心 MVP 体验
+- ✅ **阶段 2**：真实工具调用闭环
+- 🟡 **阶段 3**：上下文、权限、恢复能力（进行中）
+- ⏳ **阶段 4**：MCP、插件、扩展性
+- ⏳ **阶段 5**：Python 原生差异化特性
+
+**详细功能状态和 PR 指南请查看 [FEATURE_LIST.md](FEATURE_LIST.md)。**
 
 ## 🚀 快速开始
 

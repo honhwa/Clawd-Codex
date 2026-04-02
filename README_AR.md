@@ -33,12 +33,12 @@
 
 | **Core Features Showcase** |
 |:---:|
-| ![File Operations](assets/clawd-code-write-read.png) |
-| *Seamless File Reading & Writing* |
 | ![Bash Execution](assets/clawd-code-bash.png) |
 | *Real-time Bash Command Execution* |
 | ![Web Fetch](assets/claude-code-webfetch.png) |
 | *Instant Web Content Extraction* |
+| ![File Operations](assets/clawd-code-write-read.png) |
+| *Seamless File Reading & Writing* |
 
 **CLI حقيقي • استخدام حقيقي • مجتمع حقيقي**
 
