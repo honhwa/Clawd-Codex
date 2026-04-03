@@ -18,14 +18,6 @@
 
 **🔥 Active Development • New Features Weekly 🔥**
 
-<h2><strong>FLEXIBLE SKILL SYSTEMS</strong></h2>
-
-<strong>Markdown-native slash commands with arguments, tool limits, and project/user skill loading.</strong>
-
-</div>
-
-***
-
 ## 🎯 What is This?
 
 **Clawd Code** is a **complete Python rewrite** of Claude Code, based on the **real TypeScript source code**.
