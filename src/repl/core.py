@@ -44,12 +44,22 @@ except ModuleNotFoundError:  # pragma: no cover
             raise EOFError()
 
 try:
-    from rich.console import Console
+    from rich.console import Console, Group
+    from rich.align import Align
+    from rich.panel import Panel
+    from rich.table import Table
+    from rich.text import Text
     from rich.markdown import Markdown
 except ModuleNotFoundError:  # pragma: no cover
     class Console:  # type: ignore
         def print(self, *args, **kwargs):
             return None
+
+    Group = None  # type: ignore
+    Align = None  # type: ignore
+    Panel = None  # type: ignore
+    Table = None  # type: ignore
+    Text = None  # type: ignore
 
     class Markdown:  # type: ignore
         def __init__(self, text: str):
@@ -272,31 +282,91 @@ class ClawdREPL:
             text = text.replace(prefix, "")
         return text
 
+    def _display_cwd(self) -> str:
+        cwd = str(Path.cwd())
+        home = str(Path.home())
+        if cwd.startswith(home):
+            return cwd.replace(home, "~", 1)
+        return cwd
+
+    def _truncate_middle(self, text: str, limit: int) -> str:
+        if limit <= 0 or len(text) <= limit:
+            return text
+        if limit <= 3:
+            return text[:limit]
+        head = max(1, (limit - 1) // 2)
+        tail = max(1, limit - head - 1)
+        return f"{text[:head]}…{text[-tail:]}"
+
+    def _print_startup_header(self):
+        from src import __version__
+
+        display_path = self._display_cwd()
+        provider_label = f"{self.provider_name.upper()} Provider"
+        model_label = self.provider.model or "Unknown model"
+
+        logo_ascii = "\n".join([
+            "  ██████╗██╗      █████╗ ██╗    ██╗██████╗",
+            " ██╔════╝██║     ██╔══██╗██║    ██║██╔══██╗",
+            " ██║     ██║     ███████║██║ █╗ ██║██║  ██║",
+            " ██║     ██║     ██╔══██║██║███╗██║██║  ██║",
+            " ╚██████╗███████╗██║  ██║╚███╔███╔╝██████╔╝",
+            "  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═════╝",
+            "   ██████╗ ██████╗ ██████╗ ███████╗",
+            "  ██╔════╝██╔═══██╗██╔══██╗██╔════╝",
+            "  ██║     ██║   ██║██║  ██║█████╗",
+            "  ██║     ██║   ██║██║  ██║██╔══╝",
+            "  ╚██████╗╚██████╔╝██████╔╝███████╗",
+            "   ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝",
+        ])
+        mascot_ascii = "\n".join([
+            "           ^._.^",
+            "          / o o \\",
+            "         (   T   )",
+            "          `~---~'",
+        ])
+
+        if Panel is None or Group is None or Align is None or Table is None or Text is None:
+            self.console.print(logo_ascii)
+            self.console.print(mascot_ascii)
+            self.console.print(f"Clawd Codex v{__version__}")
+            self.console.print(f"{model_label} · {provider_label}")
+            self.console.print(f"{display_path}\n")
+            return
+
+        width = getattr(self.console, "width", 80)
+        content_width = max(28, min(width - 12, 72))
+        table = Table.grid(padding=(0, 1))
+        table.add_column(style="bright_black", justify="right", no_wrap=True)
+        table.add_column(style="white", ratio=1)
+        table.add_row("Version", Text.assemble(("Clawd Codex", "bold white"), ("  ", ""), (f"v{__version__}", "bold cyan")))
+        table.add_row("Model", Text(model_label, style="bold magenta"))
+        table.add_row("Provider", Text(provider_label, style="bold green"))
+        table.add_row("Workspace", Text(self._truncate_middle(display_path, content_width - 12), style="bold blue"))
+
+        footer = Text("/help  •  /tools  •  /exit", style="dim")
+        body = Group(
+            Align.center(Text(logo_ascii, style="bold bright_cyan", no_wrap=True)),
+            Text(""),
+            Align.center(Text(mascot_ascii, style="orange3", no_wrap=True)),
+            Text(""),
+            table,
+            Text(""),
+            Align.center(footer),
+        )
+        header = Panel(
+            body,
+            border_style="bright_black",
+            title="[bold bright_cyan] CLAWD CODE [/bold bright_cyan]",
+            subtitle="[dim]interactive terminal[/dim]",
+            padding=(1, 2),
+        )
+        self.console.print(header)
+        self.console.print()
+
     def run(self):
         """Run the REPL."""
-        from src import __version__
-        import os
-
-        # 🦊 GitHub/GitLab-style Fox Mascot ASCII Art
-        fox_ascii = """[orange3]
-          ^._.^
-         / o o \\
-        (   T   )
-         `~---~'
-        [/orange3]"""
-
-        self.console.print(fox_ascii)
-        self.console.print(f"[bold white]Clawd Codex [dim]v{__version__}[/dim][/bold white]")
-        
-        # Provider & Model Info
-        provider_info = f"[dim]{self.provider.model} · {self.provider_name.upper()} Provider[/dim]"
-        self.console.print(provider_info)
-
-        # Current Directory (with home shortening)
-        cwd = os.getcwd()
-        home = os.path.expanduser("~")
-        display_path = cwd.replace(home, "~") if cwd.startswith(home) else cwd
-        self.console.print(f"[bold blue]{display_path}[/bold blue]\n")
+        self._print_startup_header()
 
         while True:
             try:
