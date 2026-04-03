@@ -55,6 +55,37 @@ class TestREPL(unittest.TestCase):
                     self.assertEqual(repl.provider_name, "glm")
                     self.assertFalse(repl.multiline_mode)
 
+    def test_startup_header_contains_logo_and_metadata(self):
+        with patch('src.config.get_config_path', return_value=self.config_dir / "config.json"):
+            with patch('src.repl.core.Session.create'):
+                with patch('src.providers.get_provider_class') as mock_provider_class:
+                    mock_provider = Mock()
+                    mock_provider.model = "glm-4.5"
+                    mock_provider_class.return_value = mock_provider
+
+                    repl = ClawdREPL(provider_name="glm")
+                    repl.console.print = Mock()
+
+                    with patch.multiple(
+                        'src.repl.core',
+                        Panel=None,
+                        Group=None,
+                        Align=None,
+                        Table=None,
+                        Text=None,
+                    ):
+                        with patch('src.repl.core.Path.cwd', return_value=Path(self.temp_dir)):
+                            repl._print_startup_header()
+
+                    rendered = "\n".join(
+                        str(args[0]) for args, _kwargs in repl.console.print.call_args_list if args
+                    )
+                    self.assertIn("██████╗██╗", rendered)
+                    self.assertIn("^._.^", rendered)
+                    self.assertIn("Clawd Codex", rendered)
+                    self.assertIn("glm-4.5 · GLM Provider", rendered)
+                    self.assertIn(self.temp_dir, rendered)
+
     def test_handle_command_exit(self):
         """Test /exit command."""
         with patch('src.config.get_config_path', return_value=self.config_dir / "config.json"):
