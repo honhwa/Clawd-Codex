@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Initial context injection pipeline for workspace snapshot, git status, and `CLAUDE.md`
+- Tests covering the new context system integration
+
+### Changed
+- Skill frontmatter parsing now supports inline list syntax such as `arguments: [path]`
+- README and contributor docs now prefer `uv`-based setup instructions
+- Documentation now distinguishes provider-level streaming interfaces from the current turn-based CLI output
+
 ## [0.1.0] - 2026-04-01
 
 ### Added
@@ -12,27 +23,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Core Features
 - Multi-provider support for Anthropic, OpenAI, and GLM (Zhipu AI)
 - Interactive REPL with prompt-toolkit integration
-- Streaming response support for real-time output
+- Rich interactive terminal output
 - Session persistence and management
-- Configuration management with encrypted API key storage
+- Configuration management with basic API key obfuscation
 
 #### CLI Commands
+- `clawd` - Start the interactive REPL
 - `clawd login` - Interactive API key configuration
-- `clawd repl` - Start interactive REPL session
-- `clawd config set-api-key` - Set provider API key
-- `clawd config set-default-provider` - Set default provider
+- `clawd config` - View current configuration
+- `clawd --version` - Show version information
 
 #### Provider Implementations
-- **Anthropic Provider**: Full support for Claude models with streaming
-- **OpenAI Provider**: Support for GPT models with streaming
-- **GLM Provider**: Support for GLM-4 models with streaming
+- **Anthropic Provider**: Claude integration with chat + streaming interfaces
+- **OpenAI Provider**: GPT integration with chat + streaming interfaces
+- **GLM Provider**: GLM integration with chat + streaming interfaces
 
 #### REPL Features
 - Command history with persistent storage
 - Auto-suggestions from history
-- Slash commands: `/help`, `/exit`, `/clear`, `/save`, `/load`
+- Slash commands: `/help`, `/exit`, `/clear`, `/save`, `/load`, `/multiline`
+- Skill slash commands backed by `SKILL.md`
 - Syntax highlighting with Rich library
-- Multi-line input support (basic)
+- Tab completion and multi-line input support
 
 #### Configuration System
 - JSON-based configuration storage
@@ -93,11 +105,10 @@ src/
 
 ### Known Limitations
 
-- Tab completion not yet implemented
-- Advanced multi-line editing needs improvement
-- Session loading UI not fully implemented
-- Token usage tracking not available for all providers
-- No streaming support for reasoning content (experimental feature)
+- Context building is still in early MVP form and needs deeper project summarization
+- Permission enforcement exists as a framework but is not fully integrated everywhere
+- `/resume`, `/compact`, and `/doctor` are not implemented yet
+- The current CLI uses turn-based output even though providers expose streaming interfaces
 
 ### Migration Notes
 
@@ -105,15 +116,11 @@ This is the initial MVP release. No migration needed.
 
 ### Future Roadmap
 
-- [ ] Enhanced REPL with tab completion
-- [ ] Advanced multi-line editing
+- [ ] Context enrichment and project-memory improvements
+- [ ] Full permission integration
+- [ ] `/resume`, `/compact`, `/doctor`
 - [ ] Token usage and cost tracking
-- [ ] Custom prompt templates
-- [ ] Temperature and other parameter configuration
-- [ ] Plugin system for extensions
-- [ ] Go language implementation
-- [ ] Bilingual tutorial edition
-- [ ] 24/7 auto-iteration system
+- [ ] MCP and plugin-system enhancements
 
 ---
 
@@ -127,7 +134,7 @@ This is the first public release of Clawd Codex, a complete reimplementation of 
 - Interactive REPL
 - Session management
 - Configuration system
-- Streaming responses
+- Tool system and agent loop foundations
 - Type-safe implementation
 
 The focus was on building a solid foundation with clean architecture, comprehensive testing, and good developer experience. All core features are working and tested.
@@ -136,4 +143,4 @@ The focus was on building a solid foundation with clean architecture, comprehens
 
 ---
 
-[0.1.0]: https://github.com/GPT-AGI/Clawd-Codex/releases/tag/v0.1.0
+[0.1.0]: https://github.com/GPT-AGI/Clawd-Code/releases/tag/v0.1.0

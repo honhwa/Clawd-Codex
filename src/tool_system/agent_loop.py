@@ -2,16 +2,14 @@
 
 from __future__ import annotations
 
-import uuid
 import json
 from dataclasses import dataclass
-from typing import Any, Callable, Optional
-from pathlib import Path
+from typing import Any, Callable
 
 from .registry import ToolRegistry
 from .context import ToolContext
-from .errors import ToolExecutionError
 from ..agent.conversation import Conversation, TextContentBlock, ToolUseContentBlock
+from ..context_system import build_context_prompt
 from ..outputStyles import resolve_output_style
 from ..providers.base import BaseProvider
 from ..providers.anthropic_provider import AnthropicProvider
@@ -113,6 +111,19 @@ def _safe_call_handler(handler: ToolEventHandler | None, event: ToolEvent) -> No
         return
 
 
+def _build_effective_system_prompt(style_prompt: str, tool_context: ToolContext) -> str:
+    try:
+        context_prompt = build_context_prompt(
+            tool_context.workspace_root,
+            cwd=tool_context.cwd,
+        )
+    except Exception:
+        context_prompt = ""
+    if not context_prompt.strip():
+        return style_prompt
+    return f"{style_prompt}\n\n{context_prompt}"
+
+
 def summarize_tool_use(name: str, tool_input: dict[str, Any]) -> str:
     lowered = name.lower()
     if lowered == "bash":
@@ -210,6 +221,7 @@ def run_agent_loop(
     style_name = getattr(tool_context, "output_style_name", None)
     style_dir = getattr(tool_context, "output_style_dir", None)
     style_prompt = resolve_output_style(style_name, style_dir).prompt
+    effective_system_prompt = _build_effective_system_prompt(style_prompt, tool_context)
 
     # Seed OpenAI messages from initial conversation messages
     for msg in conversation.messages:
@@ -231,10 +243,10 @@ def run_agent_loop(
 
         call_kwargs: dict[str, Any] = {"tools": tool_schemas}
         if _is_anthropic_provider(provider):
-            call_kwargs["system"] = style_prompt
+            call_kwargs["system"] = effective_system_prompt
         else:
             if turn == 0:
-                api_messages = [{"role": "system", "content": style_prompt}, *api_messages]
+                api_messages = [{"role": "system", "content": effective_system_prompt}, *api_messages]
         response = provider.chat(api_messages, **call_kwargs)
 
         # Build assistant content for Anthropic or just text for OpenAI

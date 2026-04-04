@@ -6,10 +6,16 @@ This document describes the testing strategy and how to run tests for Clawd Code
 
 ```
 tests/
-├── test_config.py           # Configuration management tests
-├── test_providers.py        # LLM provider tests
-├── test_repl.py            # REPL functionality tests
-└── test_porting_workspace.py  # Porting workspace tests
+├── test_agent_loop.py
+├── test_claude_code_tool_parity.py
+├── test_config.py
+├── test_context_system.py
+├── test_output_styles.py
+├── test_porting_workspace.py
+├── test_providers.py
+├── test_repl.py
+├── test_skills_system.py
+└── test_tool_system_tools.py
 ```
 
 ## Running Tests
@@ -17,47 +23,50 @@ tests/
 ### Run All Tests
 
 ```bash
+# Activate the project environment first
+source .venv/bin/activate
+
 # Using pytest (recommended)
-python3 -m pytest tests/ -v
+python -m pytest tests/ -q
 
 # Using unittest
-python3 -m unittest discover -s tests -v
+python -m unittest discover -s tests -v
 ```
 
 ### Run Specific Test File
 
 ```bash
 # Test configuration
-python3 -m pytest tests/test_config.py -v
+python -m pytest tests/test_config.py -q
 
 # Test providers
-python3 -m pytest tests/test_providers.py -v
+python -m pytest tests/test_providers.py -q
 
 # Test REPL
-python3 -m pytest tests/test_repl.py -v
+python -m pytest tests/test_repl.py -q
 
-# Test porting workspace
-python3 -m pytest tests/test_porting_workspace.py -v
+# Test context and agent loop
+python -m pytest tests/test_context_system.py tests/test_agent_loop.py -q
 ```
 
 ### Run Specific Test
 
 ```bash
 # Run specific test by name
-python3 -m pytest tests/test_config.py::TestLoadSaveConfig::test_save_and_load_config -v
+python -m pytest tests/test_config.py::TestLoadSaveConfig::test_save_and_load_config -v
 
 # Run tests matching pattern
-python3 -m pytest tests/ -k "api_key" -v
+python -m pytest tests/ -k "api_key" -v
 ```
 
 ### Run with Coverage
 
 ```bash
 # Install coverage tool
-pip install pytest-cov
+uv pip install pytest-cov
 
 # Run tests with coverage report
-python3 -m pytest tests/ --cov=src --cov-report=html
+python -m pytest tests/ --cov=src --cov-report=html
 
 # Open coverage report
 open htmlcov/index.html  # macOS
@@ -182,11 +191,10 @@ Tests for porting completeness:
 - Longer execution time
 - May require cleanup
 
-### End-to-End Tests
-- Test complete workflows
-- Located in `test_e2e.py`
-- Require full setup
-- Run manually or in CI/CD
+### End-to-End Checks
+- Test complete workflows in the real REPL
+- Currently performed manually for provider login, REPL interaction, skills, and context behavior
+- Useful when validating prompt behavior or CLI UX changes
 
 ## Writing Tests
 
@@ -247,10 +255,9 @@ def test_openai_chat(self, mock_openai):
 
 ### Current Coverage
 
-- Configuration: 95%+
-- Providers: 90%+
-- REPL: 85%+
-- Overall: 90%+
+- Coverage changes as features evolve
+- Use the commands below to generate up-to-date local reports
+- Prefer focusing on critical paths rather than preserving a stale percentage in docs
 
 ### Coverage Goals
 
@@ -262,10 +269,10 @@ def test_openai_chat(self, mock_openai):
 
 ```bash
 # Generate coverage report
-python3 -m pytest tests/ --cov=src --cov-report=term-missing
+python -m pytest tests/ --cov=src --cov-report=term-missing
 
 # View missing lines
-python3 -m pytest tests/ --cov=src --cov-report=term-missing | grep "TOTAL"
+python -m pytest tests/ --cov=src --cov-report=term-missing | grep "TOTAL"
 ```
 
 ## Continuous Integration
@@ -282,7 +289,7 @@ Tests are configured in `.github/workflows/` (if exists):
 
 ```yaml
 - name: Run tests
-  run: python3 -m pytest tests/ -v --cov=src
+  run: python -m pytest tests/ -q --cov=src
 ```
 
 ## Test Data
@@ -323,20 +330,20 @@ Test sessions are created in temporary directories and cleaned up after tests.
 
 ```bash
 # Run with verbose output
-python3 -m pytest tests/ -v -s
+python -m pytest tests/ -v -s
 
 # Run with pdb debugger
-python3 -m pytest tests/ --pdb
+python -m pytest tests/ --pdb
 
 # Run specific failing test with output
-python3 -m pytest tests/test_config.py::TestClassName::test_name -v -s
+python -m pytest tests/test_config.py::TestClassName::test_name -v -s
 ```
 
 ## Performance Tests
 
 ```bash
 # Run performance benchmarks
-python3 -m pytest tests/ --benchmark-only
+python -m pytest tests/ --benchmark-only
 ```
 
 ## Security Tests
@@ -377,5 +384,6 @@ Good testing practices ensure:
 **Run tests before every commit!**
 
 ```bash
-python3 -m pytest tests/ -v
+source .venv/bin/activate
+python -m pytest tests/ -q
 ```

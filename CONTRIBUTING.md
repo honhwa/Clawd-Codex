@@ -1,6 +1,6 @@
-# Contributing to Clawd Codex
+# Contributing to Clawd Code
 
-Thank you for your interest in contributing to Clawd Codex! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to Clawd Code! This document provides guidelines and instructions for contributing.
 
 ## Table of Contents
 
@@ -20,8 +20,8 @@ This project follows the [Contributor Covenant Code of Conduct](https://www.cont
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package manager)
+- Python 3.10 or higher (3.11 recommended for local development)
+- `uv` (recommended) or `pip`
 - git
 - A valid API key from at least one provider (Anthropic, OpenAI, or GLM)
 
@@ -31,60 +31,60 @@ This project follows the [Contributor Covenant Code of Conduct](https://www.cont
 
 ```bash
 # Fork the repo on GitHub, then:
-git clone https://github.com/YOUR_USERNAME/Clawd-Codex.git
-cd Clawd-Codex
+git clone https://github.com/YOUR_USERNAME/Clawd-Code.git
+cd Clawd-Code
 ```
 
 2. **Create a virtual environment**
 
 ```bash
-python3 -m venv .venv
+uv venv --python 3.11
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 3. **Install dependencies**
 
 ```bash
-pip install -r requirements.txt
-pip install -e .
+uv pip install -r requirements.txt
+uv pip install -e ".[dev]"
 ```
 
 4. **Install development tools**
 
 ```bash
-pip install black isort mypy pytest
+uv pip install black isort mypy pytest
 ```
 
 5. **Configure your API key**
 
 ```bash
-clawd login
-# or
-clawd config set-api-key glm YOUR_API_KEY
+python -m src.cli login
+# or use environment variables such as GLM_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY
 ```
 
 6. **Run tests to verify setup**
 
 ```bash
-python3 -m pytest tests/ -v
+python -m pytest tests/ -q
 ```
 
 ## Project Structure
 
 ```
-Clawd-Codex/
+Clawd-Code/
 ├── src/                    # Source code
 │   ├── providers/         # LLM provider implementations
 │   ├── repl/              # Interactive REPL
 │   ├── agent/             # Session management
+│   ├── skills/            # SKILL.md loading and creation
+│   ├── tool_system/       # Tool registry, loop, validation
 │   ├── config.py          # Configuration management
 │   └── cli.py             # CLI commands
 ├── tests/                 # Test files
-├── docs/                  # Documentation (if any)
 ├── .github/               # GitHub workflows and templates
 ├── requirements.txt       # Python dependencies
-├── pyproject.toml        # Project metadata
-└── README.md             # Project overview
+├── pyproject.toml         # Project metadata
+└── README.md              # Project overview
 ```
 
 ### Key Modules
@@ -247,10 +247,10 @@ isort src/ tests/
 mypy src/
 
 # Run tests
-python3 -m pytest tests/ -v
+python -m pytest tests/ -q
 
 # Test your changes manually
-clawd repl
+python -m src.cli
 ```
 
 4. **Commit your changes**
@@ -295,13 +295,13 @@ git push origin feature/your-feature-name
 
 ```bash
 # Run all tests
-python3 -m pytest tests/ -v
+python -m pytest tests/ -q
 
 # Run specific test file
-python3 -m pytest tests/test_porting_workspace.py -v
+python -m pytest tests/test_tool_system_tools.py -q
 
 # Run with coverage
-python3 -m pytest tests/ --cov=src --cov-report=html
+python -m pytest tests/ --cov=src --cov-report=html
 ```
 
 ### Writing Tests
@@ -356,4 +356,4 @@ If you have questions, feel free to:
 - Start a discussion in the Discussions tab
 - Reach out to maintainers
 
-Thank you for contributing to Clawd Codex!
+Thank you for contributing to Clawd Code!

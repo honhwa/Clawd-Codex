@@ -125,7 +125,7 @@ clawd config       # View settings
 | ------------- | ---------- | --------- |
 | REPL Commands | ✅ Complete | 6+ built-ins |
 | Tool System   | ✅ Complete | 30+ tools |
-| Automated Tests | ✅ Present | Skills, providers, REPL, tools |
+| Automated Tests | ✅ Present | Core suites for skills, providers, REPL, tools, context |
 | Documentation | ✅ Complete | 10+ docs  |
 
 ### Core Systems
@@ -138,7 +138,7 @@ clawd config       # View settings
 | Session Persistence | ✅ | Save/load sessions locally |
 | Agent Loop | ✅ | Tool calling loop implementation |
 | Skill System | ✅ | SKILL.md-based slash-command skills with args + tool limits |
-| Context Building | 🟡 | Basic framework, needs enhancement |
+| Context Building | 🟡 | Initial prompt injection for workspace, git, and CLAUDE.md; deeper project understanding still needed |
 | Permission System | 🟡 | Framework exists, needs integration |
 
 ### Tool System (30+ Tools Implemented)
@@ -369,13 +369,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 - **Startup**: < 1 second
 - **Memory**: < 50MB
-- **Response**: Streaming (real-time)
+- **Response**: Turn-based assistant output with Rich markdown rendering
 
 ***
 
 ## 🔒 Security
 
-✅ **Security Audited**
+✅ **Basic Local Safety Practices**
 
 - No sensitive data in Git
 - API keys obfuscated in config
@@ -546,7 +546,7 @@ clawd config       # 查看设置
 | ----- | ------ | ------ |
 | REPL 命令 | ✅ 完成   | 6+ 内置命令 |
 | 工具系统 | ✅ 完成   | 30+ 工具 |
-| 自动化测试 | ✅ 已覆盖  | Skills、providers、REPL、tools |
+| 自动化测试 | ✅ 已覆盖  | Skills、providers、REPL、tools、context |
 | 文档    | ✅ 完成   | 10+ 文档 |
 
 ### 核心系统
@@ -559,7 +559,7 @@ clawd config       # 查看设置
 | 会话持久化 | ✅ | 本地保存/加载会话 |
 | Agent Loop | ✅ | 工具调用循环实现 |
 | Skill 系统 | ✅ | 基于 SKILL.md 的 /skill 技能：参数替换 + 工具限制 |
-| 上下文构建 | 🟡 | 基础框架，需要增强 |
+| 上下文构建 | 🟡 | 已接入 workspace、git、CLAUDE.md 的基础上下文注入，仍需补强项目级理解 |
 | 权限系统 | 🟡 | 框架已存在，需要集成 |
 
 ### 工具系统（已实现 30+ 工具）
@@ -788,13 +788,13 @@ python -m pytest tests/ -v
 
 - **启动时间**：< 1 秒
 - **内存占用**：< 50MB
-- **响应**：流式传输（实时）
+- **响应**：回合式输出，支持 Rich Markdown 渲染
 
 ***
 
 ## 🔒 安全
 
-✅ **已通过安全审计**
+✅ **基础本地安全实践**
 
 - Git 中无敏感数据
 - API 密钥在配置中做了基础混淆

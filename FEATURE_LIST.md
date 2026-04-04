@@ -41,7 +41,7 @@
 | 会话消息管理 | ✅ | 支持会话历史维护与序列化 |
 | 错误恢复 / 重新登录 | 🟡 | 已有基础认证错误处理与重新配置流程 |
 | Token / Cost 跟踪 | 🚫 | 当前聊天 CLI 尚未形成完整统计视图 |
-| 上下文构建 | 🟡 | 已有 context.py 模块，尚未完成完整注入闭环 |
+| 上下文构建 | 🟡 | 已有 `context_system` 基础版，支持 workspace / git / `CLAUDE.md` 注入，仍缺 README 摘要、memory、compact |
 | Claude Code Agent Loop | ✅ | 已实现 agent_loop.py，支持工具调用循环 |
 | `/resume` 会话恢复体验 | 🚫 | 暂无独立恢复流程与 UI |
 | `/compact` 对话压缩 | 🚫 | 暂无自动/手动压缩能力 |
@@ -114,7 +114,7 @@
 | Tool Execution Engine | ✅ | 已实现工具加载、执行、结果回填闭环 |
 | Output Styles | ✅ | 已实现输出样式加载系统 |
 | Session Persistence | ✅ | 已有会话保存/加载能力 |
-| Context Engine | 🟡 | 已有 context.py，未形成完整上下文构建系统 |
+| Context Engine | 🟡 | 已接入基础上下文构建链路，支持 workspace、git、`CLAUDE.md` prompt 注入 |
 | Permission Engine | 🟡 | 已有框架，未完全集成到工具执行流程 |
 | Compaction Engine | 🚫 | 未形成对话压缩与 token 管理能力 |
 | Hook Runtime | 🚫 | 未接入设置驱动的 hook 执行机制 |
@@ -155,7 +155,7 @@
 - ⏳ MCP 完全支持
 - ⏳ compact / resume / doctor
 - ⏳ Hook 系统
-- ⏳ 上下文自动构建
+- ⏳ 更完整的上下文自动构建
 
 ---
 
@@ -201,7 +201,8 @@
 目标：补齐 Claude Code 的工程化能力。
 
 - [ ] 工作区上下文构建完善
-- [ ] git status / 文件树 / 项目说明注入
+- [x] git status / 文件树 / `CLAUDE.md` 注入基础版
+- [ ] README / 入口文件摘要注入
 - [ ] memory 与历史上下文管理
 - [ ] 权限系统完全集成
 - [ ] `/resume`
