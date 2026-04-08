@@ -133,31 +133,6 @@
 | 输出样式测试 | ✅ | `test_output_styles.py` (64 行) |
 | 配置测试 | ✅ | `test_config.py` |
 
----
-
-## 当前对外可强调的能力
-
-这些适合放在 README 首页，强调"已经能用"：
-
-- ✅ 多 Provider 聊天 CLI
-- ✅ 交互式 REPL
-- ✅ 会话保存/加载
-- ✅ 交互式 REPL 输出
-- ✅ Provider 配置管理
-- ✅ **完整的工具系统框架（30+ 工具）**
-- ✅ **Agent Loop 实现**
-- ✅ **工具调用闭环**
-- ✅ 基于 Claude Code 架构思路的 Python 重构骨架
-
-这些暂时不建议对外写成"已完成"：
-
-- ⏳ 权限系统完全集成
-- ⏳ MCP 完全支持
-- ⏳ compact / resume / doctor
-- ⏳ Hook 系统
-- ⏳ 更完整的上下文自动构建
-
----
 
 ## 路线图
 
